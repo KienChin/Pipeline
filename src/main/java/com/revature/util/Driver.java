@@ -1,32 +1,39 @@
 package com.revature.util;
 
+import org.apache.log4j.Logger;
+
 import com.revature.daos.BkmkDao;
 import com.revature.daos.BkmkDaoImpl;
 import com.revature.daos.UserDao;
 import com.revature.daos.UserDaoImpl;
 import com.revature.models.Address;
-import com.revature.models.Bookmark;
 import com.revature.models.User;
 
 public class Driver {
+	
+	private static final Logger drLog = Logger.getLogger(Driver.class); 
+	// will log all hibernate
 
 	public static void main(String[] args) {
+		
 		//Session sess = HibernateUtil.getSession();
 		//sess.close();
 		
 		UserDao ud = UserDaoImpl.getDao();
 		BkmkDao bd = BkmkDaoImpl.getDao();
 		
-		Address anAdr = new Address("A Metropolis", "A State", "987 An Ave", 88888);
-		User aUser = new User("aUser", "aPW", "Adrien", "Agreste", 
-				"chatnoir@amail.fr", anAdr, 0);
-		System.out.println(ud.addUser(aUser)); 
+		Address revAdr = new Address("Reston", "Virginia", "11730 Plaza America Dr", 20190);
+		User revUser = new User("revUser", "revPW", "Revature", "Employee", 
+				"chatnoir@amail.fr", revAdr, 0);
+		//System.out.println(ud.addUser(revUser)); 
 		
-		System.out.println(ud.getUser("aUser", "aPW"));
 		
-		Bookmark someBkmk = new Bookmark(aUser, "/french-candidate");
+		drLog.info(ud.getUser("revUser", "revPW").toString());
+		/*
+		Bookmark someBkmk = new Bookmark(revUser, "/va-candidates");
 		System.out.println(bd.addBkmk(someBkmk));
-		System.out.println(bd.getAllBkmks(aUser));
+		*/
+		drLog.info(bd.getAllBkmks(revUser).toString());
 	}
 
 }
