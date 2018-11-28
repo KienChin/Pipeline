@@ -47,12 +47,6 @@ public class AdrDaoImpl implements AdrDao {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
-	@Override
-	public boolean deleteAdr(int id) {
-		// TODO Auto-generated method stub
-		return false;
-	}
 	
 	
 
