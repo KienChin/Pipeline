@@ -57,6 +57,16 @@ public class BkmkDaoImpl implements BkmkDao {
 		hiSess.close();
  		return bkmkPK;
 	}
+
+	@Override
+	public void removeBkmk(int id) {
+		Session hiSess = HibernateUtil.getSession();
+		Transaction tx = hiSess.beginTransaction();
+		Bookmark bkmk = BkmkDaoImpl.getDao().getBkmk(id);
+		hiSess.delete(bkmk);
+		tx.commit();
+		hiSess.close();
+	}
 	
 	
 	

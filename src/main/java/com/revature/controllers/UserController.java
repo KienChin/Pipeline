@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -14,7 +15,7 @@ import com.revature.models.User;
 
 //@Controller
 @RestController// same as Controller but w/o ResponseBody?
-//@RequestMapping("/users")
+@RequestMapping("/user")
 @CrossOrigin
 public class UserController {
 	
@@ -26,7 +27,7 @@ public class UserController {
 		return "heystephen";
 	}
 	
-	@GetMapping(value="/login", produces = MediaType.APPLICATION_JSON_VALUE)
+	/*@GetMapping(value="/login", produces = MediaType.APPLICATION_JSON_VALUE)
 	//@ResponseBody
 	public User loginGet(@RequestParam("username") String username, @RequestParam("password") String password) {
 		User login = UserDaoImpl.getDao().getUser(username, password);
@@ -36,7 +37,7 @@ public class UserController {
 			ucLog.info("login failed");
 		}
 		return login;
-	}
+	}*/
 	
 	@PostMapping(value="/login", produces = MediaType.APPLICATION_JSON_VALUE)
 	public User login(@RequestBody String formStr) { // username and password as one String
@@ -49,4 +50,16 @@ public class UserController {
 		}
 		return login;
 	}
+	
+	@PostMapping(value="/create", produces = MediaType.APPLICATION_JSON_VALUE)
+	public int createUser(@RequestBody User user) {
+		int addedUserPK = UserDaoImpl.getDao().addUser(user);
+		if (addedUserPK != 0) {
+			ucLog.info("User created");
+		} else {
+			ucLog.info("User failed to create");
+		}
+		return addedUserPK;
+	}
+	
 }

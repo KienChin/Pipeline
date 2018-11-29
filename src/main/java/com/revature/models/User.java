@@ -58,6 +58,16 @@ public class User {
 		this.address = address;
 		this.perm = perm;
 	}
+	
+	public User(String username, String pswd, String fname, String lname, String email, Address address) {
+		super();
+		this.username = username;
+		this.pswd = pswd;
+		this.fname = fname;
+		this.lname = lname;
+		this.email = email;
+		this.address = address;
+	}
 
 	public int getUser_id() {
 		return user_id;
