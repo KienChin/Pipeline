@@ -2,11 +2,15 @@ package com.revature.daos;
 
 import java.util.List;
 
+import javax.persistence.NoResultException;
+
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
 import com.revature.models.Address;
-import com.revature.models.Bookmark;
+import com.revature.models.User;
+import com.revature.models.Address;
 import com.revature.util.HibernateUtil;
 
 public class AdrDaoImpl implements AdrDao {
@@ -29,23 +33,38 @@ public class AdrDaoImpl implements AdrDao {
 		Session hiSess = HibernateUtil.getSession();
 		// HQL uses bean name, NOT table name
 		String hql = "FROM Address WHERE adr_id = :idVal";
-		Query<Bookmark> selectBkmk = hiSess.createQuery(hql, Bookmark.class);
-		selectBkmk.setParameter("idVal", id);
-		Bookmark bkmk = (Bookmark) selectBkmk.getSingleResult(); // exception needs handling
+		Query<Address> selectAdr = hiSess.createQuery(hql, Address.class);
+		selectAdr.setParameter("idVal", id);
+		Address adr = null;
+		try {
+			adr = (Address) selectAdr.getSingleResult();
+		} catch (NoResultException nre) {
+			nre.printStackTrace(); // use logging
+		}
 		hiSess.close();
-		return null;
+		return adr;
 	}
 
 	@Override
 	public int addAdr(Address adr) {
-		// TODO Auto-generated method stub
-		return 0;
+		Session hiSess = HibernateUtil.getSession();
+		Transaction tx = hiSess.beginTransaction();
+		int adrPK = (int) hiSess.save(adr);
+		tx.commit();
+		hiSess.close();
+ 		return adrPK;
 	}
 
 	@Override
 	public List<Address> getAllAdr() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public boolean deleteAdr(int id) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 	
 	

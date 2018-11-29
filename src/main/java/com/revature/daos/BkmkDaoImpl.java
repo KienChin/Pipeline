@@ -57,9 +57,6 @@ public class BkmkDaoImpl implements BkmkDao {
 		hiSess.close();
  		return bkmkPK;
 	}
-
-	
-	
 	
 	
 	

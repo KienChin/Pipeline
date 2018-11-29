@@ -2,6 +2,8 @@ package com.revature.daos;
 
 import java.util.List;
 
+import javax.persistence.NoResultException;
+
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
@@ -32,7 +34,12 @@ public class UserDaoImpl implements UserDao {
 		Query<User> selectUser = hiSess.createQuery(hql, User.class);
 		selectUser.setParameter("userVal", username);
 		selectUser.setParameter("pwVal", password);
-		User user = (User) selectUser.getSingleResult(); // exception needs handling
+		User user = null;
+		try {
+			user = (User) selectUser.getSingleResult();
+		} catch (NoResultException nre) {
+			nre.printStackTrace(); // use logging
+		}
 		hiSess.close();
 		return user;
 	}	
@@ -44,7 +51,9 @@ public class UserDaoImpl implements UserDao {
 		// must add address first if not already in db to avoid transient exception
 		AdrDao ad = AdrDaoImpl.getDao();
 		if (ad.getAddress(user.getAddress().getAdr_id()) == null) { // if adr not in db
-			hiSess.save(user.getAddress()); // add adr to db using save or addAdr
+			//hiSess.save(user.getAddress()); // add adr to db using save 
+			System.out.println("null address found"); // use logging - Spring AOP?
+			AdrDaoImpl.getDao().addAdr(user.getAddress()); // or addAdr - if session can be opened within a session
 		}
 		int userPK = (int) hiSess.save(user);
 		// what if user is already in db?
