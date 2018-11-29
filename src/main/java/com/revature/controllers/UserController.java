@@ -24,18 +24,24 @@ public class UserController {
 		return "heystephen";
 	}
 	
-	@PostMapping(value="/login", produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(value="/login", produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public User login(HttpServletRequest req, @RequestParam("username") String username, @RequestParam("password") String password) {
-		HttpSession session = req.getSession();
-		User login = null;
+		System.out.println("yes");
+		
 		HttpSession var = req.getSession(false);
+		
+		User login = null;
+		
 		if (var == null) {
+			HttpSession session = req.getSession();
 			login = UserDaoImpl.getDao().getUser(username,password);
 			session.setAttribute("user", login);
 		} else {
+			System.out.println("we have a session");
 			login = (User) req.getSession().getAttribute("user");
 		}
+		System.out.println(login);
 		return login;
 	}
 }
