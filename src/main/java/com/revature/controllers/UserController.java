@@ -39,7 +39,7 @@ public class UserController {
 		return login;
 	}*/
 	
-	@PostMapping(value="/login", produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(value="/login", produces = MediaType.APPLICATION_JSON_VALUE)
 	public String login(@RequestBody User user) { // username and password only non-null properties in user object
 		/*User login = UserDaoImpl.getDao().getUser(user);
 		if (login != null) {
