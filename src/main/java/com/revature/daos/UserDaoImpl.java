@@ -27,14 +27,13 @@ public class UserDaoImpl implements UserDao {
 	}
 
 	@Override
-	public User getUser(String username, String password) {
+	public User getUser(User user) {
 		Session hiSess = HibernateUtil.getSession();
 		// HQL uses bean name, NOT table name
 		String hql = "FROM User WHERE username = :userVal AND pswd = :pwVal";
 		Query<User> selectUser = hiSess.createQuery(hql, User.class);
-		selectUser.setParameter("userVal", username);
-		selectUser.setParameter("pwVal", password);
-		User user = null;
+		selectUser.setParameter("userVal", user.getUsername());
+		selectUser.setParameter("pwVal", user.getPswd());
 		try {
 			user = (User) selectUser.getSingleResult();
 		} catch (NoResultException nre) {
@@ -69,6 +68,27 @@ public class UserDaoImpl implements UserDao {
 		List<User> users = selectAll.list();
 		hiSess.close();
 		return users;
+	}
+	
+
+	@Override
+	public User updateUser(User user) {
+		Session hiSess = HibernateUtil.getSession();
+		try {
+			hiSess.update(user);
+		} catch (NoResultException e) {
+			e.printStackTrace();
+		}
+		String hql = "FROM User WHERE user_id= :idVal";
+		Query<User> selectUser = hiSess.createQuery(hql, User.class);
+		selectUser.setParameter("idVal", user.getUser_id());
+		try {
+			User updatedUser = (User) selectUser.getSingleResult();
+			return updatedUser;
+		} catch (NoResultException nre) {
+			nre.printStackTrace();
+		}
+		return user;
 	}
 
 }

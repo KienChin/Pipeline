@@ -67,6 +67,10 @@ public class AdrDaoImpl implements AdrDao {
 		return false;
 	}
 	
+	@Override
+	public void updateAdr(int id) {
+		
+	}
 	
 
 }

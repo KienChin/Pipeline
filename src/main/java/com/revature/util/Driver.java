@@ -28,7 +28,7 @@ public class Driver {
 		//System.out.println(ud.addUser(revUser)); 
 		
 		
-		drLog.info(ud.getUser("revUser", "revPW").toString());
+		//drLog.info(ud.getUser("revUser", "revPW").toString());
 		/*
 		Bookmark someBkmk = new Bookmark(revUser, "/va-candidates");
 		System.out.println(bd.addBkmk(someBkmk));

@@ -1,6 +1,7 @@
 package com.revature.service;
 
 import com.revature.daos.UserDaoImpl;
+import com.revature.models.User;
 
 public class VoteServImpl implements VoteService {
 
@@ -9,8 +10,8 @@ public class VoteServImpl implements VoteService {
 	}
 	
 	@Override
-	public boolean login(String username, String password) {
-		if (UserDaoImpl.getDao().getUser(username, password) != null) {
+	public boolean login(User user) {
+		if (UserDaoImpl.getDao().getUser(user) != null) {
 			return true;
 		}
 		return false;

@@ -38,9 +38,9 @@ public class BookmarkController {
 		return bkmkList;
 	}
 	
-	@PostMapping(value="/remove", produces = MediaType.APPLICATION_JSON_VALUE)
+	/*@PostMapping(value="/remove", produces = MediaType.APPLICATION_JSON_VALUE)
 	public void removeBookmark(@RequestBody int id) {
 		BkmkDaoImpl.getDao().removeBkmk(id);
-		}
+		}*/
 
 }

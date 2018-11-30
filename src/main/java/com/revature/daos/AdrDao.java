@@ -10,5 +10,6 @@ public interface AdrDao {
 	public int addAdr(Address adr);
 	public List<Address> getAllAdr();
 	public boolean deleteAdr(int id);
+	public void updateAdr(int id);
 	
 }

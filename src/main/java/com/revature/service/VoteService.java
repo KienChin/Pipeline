@@ -1,7 +1,9 @@
 package com.revature.service;
 
+import com.revature.models.User;
+
 public interface VoteService {
 
-	public boolean login(String username, String password);
+	public boolean login(User user);
 	
 }

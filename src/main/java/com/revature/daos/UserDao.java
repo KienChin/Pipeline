@@ -5,9 +5,11 @@ import com.revature.models.User;
 
 public interface UserDao {
 	
-	public User getUser(String username, String password);
+	public User getUser(User user);
 	public List<User> getAllUsers();
 	public int addUser(User user);
+	public User updateUser(User user);
+	//public int invalidateUser(User user);
 	//public boolean deleteUser(int id);
 	
 	// optional

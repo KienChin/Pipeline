@@ -26,12 +26,12 @@ public class BkmkDaoImpl implements BkmkDao {
 	}
 
 	@Override
-	public Bookmark getBkmk(int id) {
+	public Bookmark getBkmk(User user) {
 		Session hiSess = HibernateUtil.getSession();
 		// HQL uses bean name, NOT table name
 		String hql = "FROM Bookmark WHERE book_id = :idVal";
 		Query<Bookmark> selectBkmk = hiSess.createQuery(hql, Bookmark.class);
-		selectBkmk.setParameter("idVal", id);
+		selectBkmk.setParameter("idVal", user.getUser_id());
 		Bookmark bkmk = (Bookmark) selectBkmk.getSingleResult(); // exception needs handling
 		hiSess.close();
 		return bkmk;
@@ -58,15 +58,15 @@ public class BkmkDaoImpl implements BkmkDao {
  		return bkmkPK;
 	}
 
-	@Override
-	public void removeBkmk(int id) {
+	/*@Override
+	public void removeBkmk(User user) {
 		Session hiSess = HibernateUtil.getSession();
 		Transaction tx = hiSess.beginTransaction();
-		Bookmark bkmk = BkmkDaoImpl.getDao().getBkmk(id);
+		Bookmark bkmk = BkmkDaoImpl.getDao().getBkmk(user.getUser_id());
 		hiSess.delete(bkmk);
 		tx.commit();
 		hiSess.close();
-	}
+	}*/
 	
 	
 	

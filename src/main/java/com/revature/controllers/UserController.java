@@ -40,9 +40,8 @@ public class UserController {
 	}*/
 	
 	@PostMapping(value="/login", produces = MediaType.APPLICATION_JSON_VALUE)
-	public User login(@RequestBody String formStr) { // username and password as one String
-		String[] formArr = formStr.split(" ");
-		User login = UserDaoImpl.getDao().getUser(formArr[0], formArr[1]);
+	public User login(@RequestBody User user) { // username and password only non-null properties in user object
+		User login = UserDaoImpl.getDao().getUser(user);
 		if (login != null) {
 			ucLog.info("login successful");
 		} else {
@@ -60,6 +59,12 @@ public class UserController {
 			ucLog.info("User failed to create");
 		}
 		return addedUserPK;
+	}
+	
+	@PostMapping(value="/update", produces = MediaType.APPLICATION_JSON_VALUE)
+	public User update(@RequestBody User user) {
+		User updatedUser = null;
+		return updatedUser;
 	}
 	
 }
