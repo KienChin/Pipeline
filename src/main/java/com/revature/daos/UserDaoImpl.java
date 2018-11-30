@@ -39,7 +39,6 @@ public class UserDaoImpl implements UserDao {
 		} catch (NoResultException nre) {
 			nre.printStackTrace(); // use logging
 		}
-		System.out.println(user);
 		hiSess.close();
 		return user;
 	}	

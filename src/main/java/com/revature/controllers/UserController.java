@@ -39,7 +39,7 @@ public class UserController {
 		return login;
 	}*/
 	
-	@GetMapping(value="/login", produces = MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(value="/login", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public User login(@RequestBody User user) { // username and password only non-null properties in user object
 		User login = UserDaoImpl.getDao().getUser(user);
 		if (login != null) {
@@ -47,10 +47,10 @@ public class UserController {
 		} else {
 			ucLog.info("login failed");
 		}
-		return user;
+		return login;
 	}
 	
-	@PostMapping(value="/create", produces = MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(value="/create", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public int createUser(@RequestBody User user) {
 		int addedUserPK = UserDaoImpl.getDao().addUser(user);
 		if (addedUserPK != 0) {
@@ -61,7 +61,7 @@ public class UserController {
 		return addedUserPK;
 	}
 	
-	@PostMapping(value="/update", produces = MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(value="/update", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public User update(@RequestBody User user) {
 		User updatedUser = null;
 		return updatedUser;
