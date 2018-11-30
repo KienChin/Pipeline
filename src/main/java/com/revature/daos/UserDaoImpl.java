@@ -39,6 +39,7 @@ public class UserDaoImpl implements UserDao {
 		} catch (NoResultException nre) {
 			nre.printStackTrace(); // use logging
 		}
+		System.out.println(user);
 		hiSess.close();
 		return user;
 	}	
@@ -79,7 +80,8 @@ public class UserDaoImpl implements UserDao {
 		} catch (NoResultException e) {
 			e.printStackTrace();
 		}
-		String hql = "FROM User WHERE user_id= :idVal";
+		//maintain user object through front end
+		/*String hql = "FROM User WHERE user_id= :idVal";
 		Query<User> selectUser = hiSess.createQuery(hql, User.class);
 		selectUser.setParameter("idVal", user.getUser_id());
 		try {
@@ -87,7 +89,7 @@ public class UserDaoImpl implements UserDao {
 			return updatedUser;
 		} catch (NoResultException nre) {
 			nre.printStackTrace();
-		}
+		}*/
 		return user;
 	}
 
