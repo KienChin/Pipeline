@@ -27,6 +27,9 @@ public class Bookmark {
 	private User user;
 	
 	@Column
+	private String candidate;
+	
+	@Column
 	private String u_rl;
 	
 	public Bookmark() {
@@ -36,6 +39,13 @@ public class Bookmark {
 	public Bookmark(User user, String u_rl) {
 		super();
 		this.user = user;
+		this.u_rl = u_rl;
+	}
+
+	public Bookmark(User user, String candidate, String u_rl) {
+		super();
+		this.user = user;
+		this.candidate = candidate;
 		this.u_rl = u_rl;
 	}
 
@@ -55,6 +65,14 @@ public class Bookmark {
 		this.user = user;
 	}
 
+	public String getCandidate() {
+		return candidate;
+	}
+
+	public void setCandidate(String candidate) {
+		this.candidate = candidate;
+	}
+
 	public String getU_rl() {
 		return u_rl;
 	}
@@ -64,15 +82,11 @@ public class Bookmark {
 	}
 
 	@Override
-	public String toString() {
-		return "Bookmark [book_id=" + book_id + ", user=" + user + ", u_rl=" + u_rl + "]";
-	}
-
-	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + book_id;
+		result = prime * result + ((candidate == null) ? 0 : candidate.hashCode());
 		result = prime * result + ((u_rl == null) ? 0 : u_rl.hashCode());
 		result = prime * result + ((user == null) ? 0 : user.hashCode());
 		return result;
@@ -89,6 +103,11 @@ public class Bookmark {
 		Bookmark other = (Bookmark) obj;
 		if (book_id != other.book_id)
 			return false;
+		if (candidate == null) {
+			if (other.candidate != null)
+				return false;
+		} else if (!candidate.equals(other.candidate))
+			return false;
 		if (u_rl == null) {
 			if (other.u_rl != null)
 				return false;
@@ -102,5 +121,9 @@ public class Bookmark {
 		return true;
 	}
 
+	@Override
+	public String toString() {
+		return "Bookmark [book_id=" + book_id + ", user=" + user + ", candidate=" + candidate + ", u_rl=" + u_rl + "]";
+	}
 	
 }
