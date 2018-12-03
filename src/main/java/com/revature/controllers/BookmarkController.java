@@ -28,7 +28,7 @@ public class BookmarkController {
 	}
 	
 	@PostMapping(value="/add", produces = MediaType.APPLICATION_JSON_VALUE)
-	public int createBkmk(@RequestBody Bookmark bkmk) {
+	public int addBkmk(@RequestBody Bookmark bkmk) {
 		int bkmkPK=BkmkDaoImpl.getDao().addBkmk(bkmk);
 		if (bkmkPK!=0) {
 			ucLog.info("A new bookmark was created.");

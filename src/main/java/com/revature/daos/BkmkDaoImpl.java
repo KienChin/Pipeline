@@ -58,7 +58,7 @@ public class BkmkDaoImpl implements BkmkDao {
 	}
 
 	@Override
-	public int addBkmk(Bookmark bkmk) { // add condition here or in service: user must already exist in db 
+	public int addBkmk(Bookmark bkmk) {
 		int bkmkPK=0;
 		Session hiSess = HibernateUtil.getSession();
 		Transaction tx = hiSess.beginTransaction();

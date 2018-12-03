@@ -28,20 +28,42 @@ public class UserDaoImpl implements UserDao {
 
 	@Override
 	public int addUser(User user) {
+		int userPK = 0;
+		if (checkUser(user)) {
+			//-1 indicates that the username has already been taken by another user
+			return -1;
+		}
 		Session hiSess = HibernateUtil.getSession();
 		Transaction tx = hiSess.beginTransaction();
 		// must add address first if not already in db to avoid transient exception
 		AdrDao ad = AdrDaoImpl.getDao();
 		if (ad.getAddress(user.getAddress().getAdr_id()) == null) { // if adr not in db
-			//hiSess.save(user.getAddress()); // add adr to db using save 
-			System.out.println("null address found"); // use logging - Spring AOP?
 			AdrDaoImpl.getDao().addAdr(user.getAddress()); // or addAdr - if session can be opened within a session
 		}
-		int userPK = (int) hiSess.save(user);
-		// what if user is already in db?
+		try {
+			userPK = (int) hiSess.save(user);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		tx.commit();
 		hiSess.close();
  		return userPK;
+	}
+	
+	@Override
+	public boolean checkUser(User user) {
+		Session hiSess = HibernateUtil.getSession();
+		String hql = "from User where username = :userVal";
+		Query<User> q = hiSess.createQuery(hql, User.class);
+		q.setParameter("userVal", user.getUsername());
+		try {
+			//checking if a user was returned from the database
+			User user2 = q.getSingleResult();
+			if (user2==null) { return false; }
+			} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return true;
 	}
 		
 	@Override
@@ -61,8 +83,6 @@ public class UserDaoImpl implements UserDao {
 		return user;
 	}	
 
-
-
 	@Override
 	public List<User> getAllUsers() {
 		Session hiSess = HibernateUtil.getSession();
@@ -72,25 +92,21 @@ public class UserDaoImpl implements UserDao {
 		return users;
 	}
 	
-
+	//update user would be used to invalidate a user as well
 	@Override
 	public User updateUser(User user) {
 		Session hiSess = HibernateUtil.getSession();
+		Transaction tx = hiSess.beginTransaction();
 		try {
 			hiSess.update(user);
 		} catch (NoResultException e) {
 			e.printStackTrace();
 		}
+		tx.commit();
 		hiSess.close();
 		return user;
 	}
 
-	@Override
-	public int invalidateUser(User user) {
-		
-		return 0;
-	}
 	
 	
-
 }
