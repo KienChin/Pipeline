@@ -68,6 +68,7 @@ public class UserDaoImpl implements UserDao {
 		
 	@Override
 	public User getUser(User user) {
+		
 		Session hiSess = HibernateUtil.getSession();
 		// HQL uses bean name, NOT table name
 		String hql = "FROM User WHERE username = :userVal AND pswd = :pwVal";
@@ -76,11 +77,13 @@ public class UserDaoImpl implements UserDao {
 		selectUser.setParameter("pwVal", user.getPswd());
 		try {
 			user = (User) selectUser.getSingleResult();
+			hiSess.close();
+			return user;
 		} catch (NoResultException nre) {
 			nre.printStackTrace(); // use logging
 		}
 		hiSess.close();
-		return user;
+		return null;
 	}	
 
 	@Override
