@@ -1,6 +1,7 @@
 package com.revature.util;
 
 import org.apache.log4j.Logger;
+import org.hibernate.Session;
 
 import com.revature.daos.BkmkDao;
 import com.revature.daos.BkmkDaoImpl;
@@ -15,16 +16,18 @@ public class Driver {
 	// will log all hibernate
 
 	public static void main(String[] args) {
-		
-		//Session sess = HibernateUtil.getSession();
-		//sess.close();
-		
-		UserDao ud = UserDaoImpl.getDao();
-		BkmkDao bd = BkmkDaoImpl.getDao();
-		
 		Address revAdr = new Address("Reston", "Virginia", "11730 Plaza America Dr", 20190);
 		User revUser = new User("revUser", "revPW", "Revature", "Employee", 
 				"chatnoir@amail.fr", revAdr, 0);
+		//Session sess = HibernateUtil.getSession();
+		
+		//sess.close();
+		
+		//UserDao ud = UserDaoImpl.getDao();
+		//BkmkDao bd = BkmkDaoImpl.getDao();
+		
+		
+		//ud.addUser(revUser);
 		//System.out.println(ud.addUser(revUser)); 
 		
 		
@@ -33,7 +36,7 @@ public class Driver {
 		Bookmark someBkmk = new Bookmark(revUser, "/va-candidates");
 		System.out.println(bd.addBkmk(someBkmk));
 		*/
-		drLog.info(bd.getAllBkmks(revUser).toString());
+		//drLog.info(bd.getAllBkmks(revUser).toString());
 	}
 
 }

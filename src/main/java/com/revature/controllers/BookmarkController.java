@@ -21,7 +21,7 @@ public class BookmarkController {
 	
 	private final static Logger ucLog = Logger.getLogger(UserController.class);
 	
-	@PostMapping(value="/view", produces = MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(value="/view", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public List<Bookmark> viewAllBookmarks(User user){
 		List<Bookmark> bkmkList = BkmkDaoImpl.getDao().getAllBkmks(user);
 		return bkmkList;
