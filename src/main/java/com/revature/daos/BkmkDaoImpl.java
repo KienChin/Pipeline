@@ -1,6 +1,9 @@
 package com.revature.daos;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import javax.persistence.NoResultException;
 
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -25,7 +28,8 @@ public class BkmkDaoImpl implements BkmkDao {
 		return bd;
 	}
 
-	@Override
+	/*We dont need this as of right now
+	 * @Override
 	public Bookmark getBkmk(User user) {
 		Session hiSess = HibernateUtil.getSession();
 		// HQL uses bean name, NOT table name
@@ -35,38 +39,51 @@ public class BkmkDaoImpl implements BkmkDao {
 		Bookmark bkmk = (Bookmark) selectBkmk.getSingleResult(); // exception needs handling
 		hiSess.close();
 		return bkmk;
-	}
+	}*/
 
 	@Override
 	public List<Bookmark> getAllBkmks(User user) {
+		List<Bookmark> bkmks = new ArrayList<Bookmark>();
 		Session hiSess = HibernateUtil.getSession();
 		String hql = "FROM Bookmark WHERE user_id = :uIdVal";
 		Query<Bookmark> selectBkmks = hiSess.createQuery(hql, Bookmark.class);
 		selectBkmks.setParameter("uIdVal", user.getUser_id());
-		List<Bookmark> bkmks = selectBkmks.list();
+		try {
+			bkmks = selectBkmks.list();
+		} catch (NoResultException e) {
+			e.printStackTrace();
+		}
 		hiSess.close();
 		return bkmks;
 	}
 
 	@Override
 	public int addBkmk(Bookmark bkmk) { // add condition here or in service: user must already exist in db 
+		int bkmkPK=0;
 		Session hiSess = HibernateUtil.getSession();
 		Transaction tx = hiSess.beginTransaction();
-		int bkmkPK = (int) hiSess.save(bkmk);
+		try {
+			bkmkPK = (int) hiSess.save(bkmk);
+		} catch (NoResultException e) {
+			e.printStackTrace();
+		}
 		tx.commit();
 		hiSess.close();
  		return bkmkPK;
 	}
 
-	/*@Override
-	public void removeBkmk(User user) {
+	@Override
+	public void removeBkmk(Bookmark bkmk) {
 		Session hiSess = HibernateUtil.getSession();
 		Transaction tx = hiSess.beginTransaction();
-		Bookmark bkmk = BkmkDaoImpl.getDao().getBkmk(user.getUser_id());
-		hiSess.delete(bkmk);
+		try {
+			hiSess.delete(bkmk);
+		} catch (NoResultException e) {
+			e.printStackTrace();
+		}
 		tx.commit();
 		hiSess.close();
-	}*/
+	}
 	
 	
 	

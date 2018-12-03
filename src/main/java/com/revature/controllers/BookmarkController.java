@@ -21,6 +21,12 @@ public class BookmarkController {
 	
 	private final static Logger ucLog = Logger.getLogger(UserController.class);
 	
+	@PostMapping(value="/view", produces = MediaType.APPLICATION_JSON_VALUE)
+	public List<Bookmark> viewAllBookmarks(User user){
+		List<Bookmark> bkmkList = BkmkDaoImpl.getDao().getAllBkmks(user);
+		return bkmkList;
+	}
+	
 	@PostMapping(value="/add", produces = MediaType.APPLICATION_JSON_VALUE)
 	public int createBkmk(@RequestBody Bookmark bkmk) {
 		int bkmkPK=BkmkDaoImpl.getDao().addBkmk(bkmk);
@@ -32,15 +38,10 @@ public class BookmarkController {
 		return bkmkPK;
 	}
 	
-	@PostMapping(value="/view", produces = MediaType.APPLICATION_JSON_VALUE)
-	public List<Bookmark> viewAllBookmarks(User user){
-		List<Bookmark> bkmkList = BkmkDaoImpl.getDao().getAllBkmks(user);
-		return bkmkList;
-	}
-	
-	/*@PostMapping(value="/remove", produces = MediaType.APPLICATION_JSON_VALUE)
-	public void removeBookmark(@RequestBody int id) {
-		BkmkDaoImpl.getDao().removeBkmk(id);
-		}*/
+	@PostMapping(value="/remove", produces = MediaType.APPLICATION_JSON_VALUE)
+	public void removeBookmark(@RequestBody Bookmark bkmk) {
+		BkmkDaoImpl.getDao().removeBkmk(bkmk);
+		ucLog.info("A bookmark was deleted.");
+		}
 
 }

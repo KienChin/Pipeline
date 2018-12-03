@@ -27,23 +27,6 @@ public class UserDaoImpl implements UserDao {
 	}
 
 	@Override
-	public User getUser(User user) {
-		Session hiSess = HibernateUtil.getSession();
-		// HQL uses bean name, NOT table name
-		String hql = "FROM User WHERE username = :userVal AND pswd = :pwVal";
-		Query<User> selectUser = hiSess.createQuery(hql, User.class);
-		selectUser.setParameter("userVal", user.getUsername());
-		selectUser.setParameter("pwVal", user.getPswd());
-		try {
-			user = (User) selectUser.getSingleResult();
-		} catch (NoResultException nre) {
-			nre.printStackTrace(); // use logging
-		}
-		hiSess.close();
-		return user;
-	}	
-
-	@Override
 	public int addUser(User user) {
 		Session hiSess = HibernateUtil.getSession();
 		Transaction tx = hiSess.beginTransaction();
@@ -60,6 +43,25 @@ public class UserDaoImpl implements UserDao {
 		hiSess.close();
  		return userPK;
 	}
+		
+	@Override
+	public User getUser(User user) {
+		Session hiSess = HibernateUtil.getSession();
+		// HQL uses bean name, NOT table name
+		String hql = "FROM User WHERE username = :userVal AND pswd = :pwVal";
+		Query<User> selectUser = hiSess.createQuery(hql, User.class);
+		selectUser.setParameter("userVal", user.getUsername());
+		selectUser.setParameter("pwVal", user.getPswd());
+		try {
+			user = (User) selectUser.getSingleResult();
+		} catch (NoResultException nre) {
+			nre.printStackTrace(); // use logging
+		}
+		hiSess.close();
+		return user;
+	}	
+
+
 
 	@Override
 	public List<User> getAllUsers() {
@@ -79,17 +81,16 @@ public class UserDaoImpl implements UserDao {
 		} catch (NoResultException e) {
 			e.printStackTrace();
 		}
-		//maintain user object through front end
-		/*String hql = "FROM User WHERE user_id= :idVal";
-		Query<User> selectUser = hiSess.createQuery(hql, User.class);
-		selectUser.setParameter("idVal", user.getUser_id());
-		try {
-			User updatedUser = (User) selectUser.getSingleResult();
-			return updatedUser;
-		} catch (NoResultException nre) {
-			nre.printStackTrace();
-		}*/
+		hiSess.close();
 		return user;
 	}
+
+	@Override
+	public int invalidateUser(User user) {
+		
+		return 0;
+	}
+	
+	
 
 }

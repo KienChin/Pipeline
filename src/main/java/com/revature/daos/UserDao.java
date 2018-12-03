@@ -9,7 +9,7 @@ public interface UserDao {
 	public List<User> getAllUsers();
 	public int addUser(User user);
 	public User updateUser(User user);
-	//public int invalidateUser(User user);
+	public int invalidateUser(User user);
 	//public boolean deleteUser(int id);
 	
 	// optional
